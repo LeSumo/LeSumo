@@ -1,0 +1,77 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  /* styles.css */
+#inicio {
+  background-color: #f8f9fa;
+  padding: 100px 0;
+}
+
+h1 {
+  color: #333;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.lead {
+  color: #555;
+  font-size: 1.25rem;
+}
+  /* Carrusel */
+  .carousel-item {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Sección de Registro */
+  #registro {
+    background-color: #f8f9fa;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+  }
+  
+  .social-icons a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 1.5rem;
+  }
+
+  /* Estilos para la sección de productos */
+#productos {
+    background-color: #f8f9fa;
+  }
+  
+  .producto {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .producto:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .paypal-button {
+    margin-top: 1rem;
+  }

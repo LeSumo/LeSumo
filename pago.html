@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago - LeSumo</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="text-center">PROCESO DE PAGO</h1>
+    <p class="lead">Selecciona una opción de pago</p>
+    <div id="paypal-button-container" class="mt-4"></div>
+
+    <!-- Botón de descarga (oculto inicialmente) -->
+    <div id="descarga-container" class="mt-4 text-center" style="display: none;">
+      <h2>¡Gracias por tu compra!</h2>
+      <p>Tu pago ha sido procesado exitosamente.</p>
+      <p>El archivo se ha descargado automáticamente. Si no se descargó, haz clic en el botón de abajo.</p>
+      <a id="enlaceDescarga" href="#" download class="btn btn-success btn-lg">
+        DA CLICK AQUÍ PARA DESCARGAR EL LIBRO
+      </a>
+    </div>
+  </div>
+
+  <!-- SDK de PayPal -->
+  <script src="https://www.paypal.com/sdk/js?client-id=BAA4ecSqUNDzPJ9oayg7LJAiyPSkdj_FyG-zEOLitcy8p5_rYG_TqD7hjauG3HeiJhvWhgjVa5_Fx_eno4"></script>
+  <!-- Lista de productos -->
+  <script src="products.js"></script>
+  <script>
+    // Obtén el ID del producto desde la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productoId = urlParams.get('producto'); // Obtén el ID como cadena de texto
+
+    // Busca el producto en la lista
+    const producto = productos.find(p => p.id === productoId); // Compara como cadena de texto
+
+    // Renderiza el botón de PayPal
+    if (producto) {
+      paypal.Buttons({
+        style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'checkout',
+          tagline: false, // Oculta "Powered by PayPal"
+        },
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                currency_code: 'USD',
+                value: producto.precio // Usa el precio del producto
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            // Muestra el mensaje de confirmación y el botón de descarga
+            document.getElementById('paypal-button-container').style.display = 'none';
+            document.getElementById('descarga-container').style.display = 'block';
+
+            // Configura el enlace de descarga (usado para el botón manual)
+            document.getElementById('enlaceDescarga').href = producto.enlaceDescarga;
+
+            // Descarga automática del archivo (usando el mismo enlace)
+            const enlaceDescarga = document.createElement('a');
+            enlaceDescarga.href = producto.enlaceDescarga; // Mismo enlace modificado
+            enlaceDescarga.download = producto.nombre.replace(/ /g, '_') + '.pdf'; // Nombre del archivo
+            document.body.appendChild(enlaceDescarga);
+            enlaceDescarga.click();
+            document.body.removeChild(enlaceDescarga);
+
+            alert('¡Gracias por tu compra, ' + details.payer.name.given_name + '!');
+          });
+        },
+        onError: function(err) {
+          console.error('Error en el pago:', err);
+          alert('Ocurrió un error durante el proceso de pago. Por favor, inténtalo de nuevo.');
+        },
+      }).render('#paypal-button-container');
+    } else {
+      document.getElementById('paypal-button-container').innerHTML = '<p class="text-danger">Producto no encontrado.</p>';
+    }
+  </script>
+</body>
+</html>
