@@ -1,23 +1,6 @@
 // products.js
 const productos = [
     {
-        id: 'article scientifique',
-        nombre: 'Article Scientifique',
-        descripcion: 'Article scientifique sur des sujets de démographie en français.',
-        imagen: 'article.png',
-        enlaceDescarga: 'https://www.dropbox.com/scl/fi/z4z5umwl3v5ybygkk61rq/Publication_Article_BerthonyPIERRIN.pdf?rlkey=ijgk4nvq2unnnddmho8ygt2qn&st=5d8mztb7&dl=1',
-        gratuito: true // Producto de pago
-      },  
-    {
-       id: 'Livre',
-      nombre: 'Approche du changement-En français,Version numérique',
-      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas',
-      precio: '14.00',
-      imagen: 'livre.png',
-      enlaceDescarga: 'https://www.dropbox.com/scl/fi/lgggi8rfgz2vb6czjahho/Approche-du-changement-Berthony-PIERRIN.pdf?rlkey=chsnme5596duebqs1ok1aex6e&st=mb1zricl&dl=1',
-      gratuito: false // Producto de pago
-    },
-    {
       id: 'libro',
       nombre: 'Enfoque de Cambio - En español, Versión Digital',
       descripcion: 'Un libro lleno de conocimientos valiosos para realizar cambios positivos y exitosos, tanto a nivel individual como societal. ¡No te lo pierdas!',
@@ -33,5 +16,22 @@ const productos = [
       imagen: 'articulo.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/fige84uzy7u9a6oup2tow/Articulo-de-Berthony-PIERRIN.pdf?rlkey=7r5333cf1jx3ogpsdxxqtl2pe&st=iabht0nq&dl=1',
       gratuito: true // Producto gratuito
+    },
+    {
+        id: 'article scientifique',
+        nombre: 'Article Scientifique',
+        descripcion: 'Article scientifique sur des sujets de démographie en français.',
+        imagen: 'article.png',
+        enlaceDescarga: 'https://www.dropbox.com/scl/fi/z4z5umwl3v5ybygkk61rq/Publication_Article_BerthonyPIERRIN.pdf?rlkey=ijgk4nvq2unnnddmho8ygt2qn&st=5d8mztb7&dl=1',
+        gratuito: true // Producto de pago
+      },  
+    {
+       id: 'Livre',
+      nombre: 'Approche du changement-En français,Version numérique',
+      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas',
+      precio: '14.00',
+      imagen: 'livre.png',
+      enlaceDescarga: 'https://www.dropbox.com/scl/fi/lgggi8rfgz2vb6czjahho/Approche-du-changement-Berthony-PIERRIN.pdf?rlkey=chsnme5596duebqs1ok1aex6e&st=mb1zricl&dl=1',
+      gratuito: false // Producto de pago
     },
   ];
