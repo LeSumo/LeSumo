@@ -33,5 +33,25 @@ const productos = [
       imagen: 'articulo.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/fige84uzy7u9a6oup2tow/Articulo-de-Berthony-PIERRIN.pdf?rlkey=7r5333cf1jx3ogpsdxxqtl2pe&st=iabht0nq&dl=1',
       gratuito: true // Producto gratuito
-    },  
+    },
+
+    {
+      id: 'Livre',
+     nombre: '🎧 Enfoque de Cambio – Audiolibro en Español',
+     descripcion: 'Escucha este poderoso audiolibro y descubre los fundamentos clave para lograr cambios positivos y duraderos en tu vida y en la sociedad. Ideal para quienes prefieren aprender mientras se mueven, trabajan o descansan. ¡Haz del cambio un hábito diario!',
+     precio: '14.00',
+     imagen: 'Audio_Libro.png',
+     enlaceDescarga: 'https://www.dropbox.com/scl/fi/8hzrxuuoyod2erp8hfoyl/Audio_Enfoque-de-Cambio_MP3.mp3?rlkey=bi6s8rcca7ghu4gxf3l821m8g&st=ztzuh3um&dl=1',
+     gratuito: false // Producto de pago
+   },
+
+   {
+    id: 'Livre',
+   nombre: '🎧 Approche du Changement – Livre audio en français',
+   descripcion: 'Écoutez ce puissant livre audio et découvrez les principes clés pour réussir des changements positifs et durables, tant sur le plan personnel que sociétal. Parfait pour apprendre en marchant, en travaillant ou en se détendant. Faites du changement une habitude au quotidien !',
+   precio: '14.00',
+   imagen: 'Audio_Livre.png',
+   enlaceDescarga: 'https://www.dropbox.com/scl/fi/gmni45k9tzaj7i9ti1x65/Audio_Approche_du_Changement.mp3?rlkey=qctf9eqgncnmj3vl9xyd33p60&st=xz3z43qn&dl=1',
+   gratuito: false // Producto de pago
+ }
   ];
