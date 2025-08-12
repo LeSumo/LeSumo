@@ -20,9 +20,9 @@ const productos = [
     {
       id: 'libro',
       nombre: 'Enfoque de Cambio - En español, Versión Digital',
-      descripcion: 'Un libro lleno de conocimientos valiosos para realizar cambios positivos y exitosos, tanto a nivel individual como societal. ¡No te lo pierdas!',
+      descripcion: 'Un libro lleno de conocimientos valiosos para realizar cambios positivos y exitosos, tanto a nivel individual como societal. ¡No te lo pierdas! ISBN 978-607-29-7131-8',
       precio: '14.00',
-      imagen: 'libro.png',
+      imagen: 'Enfoque_cambio.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/stdgm6sbhkuo837nmtj82/Enfoque-de-cambio-Berthony-Pierrin.pdf?rlkey=9k7sihc1edxgquxveq3ugg5wo&st=kohon7s8&dl=1',
       gratuito: false // Producto de pago
     },
@@ -55,3 +55,4 @@ const productos = [
    gratuito: false // Producto de pago
  }
   ];
+
