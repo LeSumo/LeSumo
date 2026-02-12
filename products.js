@@ -11,8 +11,8 @@ const productos = [
     {
        id: 'Livre',
       nombre: 'Approche du changement-En français,Version numérique',
-      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas. Auteur:Pierrin, Berthony',
-      precio: '14.00',
+      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas. Auteur:Pierrin, Berthony <span style="text-decoration: line-through;">14$</span> 10$',
+      precio: '10.00',
       imagen: 'livre.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/lgggi8rfgz2vb6czjahho/Approche-du-changement-Berthony-PIERRIN.pdf?rlkey=chsnme5596duebqs1ok1aex6e&st=mb1zricl&dl=1',
       gratuito: false // Producto de pago
@@ -20,8 +20,8 @@ const productos = [
     {
       id: 'libro',
       nombre: 'Enfoque de Cambio - En español, Versión Digital',
-      descripcion: 'Un libro lleno de conocimientos valiosos para realizar cambios positivos y exitosos, tanto a nivel individual como societal. ¡No te lo pierdas! ISBN 978-607-29-7131-8. Autor:Pierrin, Berthony',
-      precio: '14.00',
+      descripcion: 'Un libro lleno de conocimientos valiosos para realizar cambios positivos y exitosos, tanto a nivel individual como societal. ¡No te lo pierdas! ISBN 978-607-29-7131-8. Autor:Pierrin, Berthony  <span style="text-decoration: line-through;">14$</span> 10$',
+      precio: '10.00',
       imagen: 'Enfoque_cambio.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/stdgm6sbhkuo837nmtj82/Enfoque-de-cambio-Berthony-Pierrin.pdf?rlkey=9k7sihc1edxgquxveq3ugg5wo&st=kohon7s8&dl=1',
       gratuito: false // Producto de pago
@@ -55,5 +55,6 @@ const productos = [
    gratuito: false // Producto de pago
  }
   ];
+
 
 
