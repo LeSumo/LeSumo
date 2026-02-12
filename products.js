@@ -11,7 +11,9 @@ const productos = [
     {
        id: 'Livre',
       nombre: 'Approche du changement-En français,Version numérique',
-      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas. Auteur:Pierrin, Berthony <span style="text-decoration: line-through;">14$</span> 10$',
+      descripcion: 'Un livre rempli de connaissances précieuses pour réaliser des changements positifs et réussis, tant au niveau individuel que sociétal. Ne le manquez pas. Auteur:Pierrin, Berthony<br>
+<span style="text-decoration: line-through; color: gray;">14$</span> 
+<strong>10$</strong>',
       precio: '10.00',
       imagen: 'livre.png',
       enlaceDescarga: 'https://www.dropbox.com/scl/fi/lgggi8rfgz2vb6czjahho/Approche-du-changement-Berthony-PIERRIN.pdf?rlkey=chsnme5596duebqs1ok1aex6e&st=mb1zricl&dl=1',
@@ -55,6 +57,7 @@ const productos = [
    gratuito: false // Producto de pago
  }
   ];
+
 
 
 
