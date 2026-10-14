@@ -1,85 +1,540 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  /* styles.css */
-#inicio {
-  background-color: #f8f9fa;
-  padding: 40px 0;
+/* ============================================================
+   LESUMO - ESTILOS PERSONALIZADOS
+   Paleta: azul corporativo + dorado
+   ============================================================ */
+
+/* Importar tipografía Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Variables de color */
+:root {
+  --lesumo-azul: #00209f;
+  --lesumo-azul-oscuro: #001670;
+  --lesumo-dorado: #ffd700;
+  --lesumo-rojo: #d21034;
+  --lesumo-gris-claro: #f8f9fa;
+  --lesumo-gris-medio: #6c757d;
+  --lesumo-gris-oscuro: #1a1a2e;
+  --sombra-suave: 0 4px 20px rgba(0,0,0,0.08);
+  --sombra-media: 0 8px 30px rgba(0,0,0,0.12);
+  --transicion: all 0.3s ease;
 }
 
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', -apple-system, sans-serif;
+  color: #333;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: var(--lesumo-gris-oscuro);
+  line-height: 1.3;
+}
+
+h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; }
+h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+h3 { font-size: 1.5rem; font-weight: 600; color: var(--lesumo-azul); }
+
+p { color: #555; line-height: 1.8; }
+a { color: var(--lesumo-azul); text-decoration: none; transition: var(--transicion); }
+a:hover { color: var(--lesumo-dorado); }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  background-color: var(--lesumo-gris-oscuro) !important;
+  padding: 1rem 0;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion);
+}
+
+.navbar-brand img {
+  height: 50px;
+  transition: var(--transicion);
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.05);
+}
+
+.navbar-nav .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem !important;
+  letter-spacing: 0.5px;
+  transition: var(--transicion);
+  position: relative;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--lesumo-dorado);
+  transition: var(--transicion);
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--lesumo-dorado) !important;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 80%;
+}
+
+.navbar-toggler {
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
 section {
-  padding: 60px 0;
+  padding: 80px 0;
+  position: relative;
+}
+
+#inicio {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 100px 0 80px;
+}
+
+#productos {
+  background-color: #fff;
+}
+
+#servicios {
+  background-color: var(--lesumo-gris-claro);
 }
 
 #Sobre-Nosotros {
-  padding: 60px 0;
+  background-color: #fff;
 }
 
-h1 {
-  color: #333;
-  font-size: 3rem;
-  font-weight: bold;
+#acceso-a-documentos {
+  background-color: var(--lesumo-gris-claro);
 }
 
-.lead {
-  color: #555;
-  font-size: 1.25rem;
+/* Títulos de sección con subrayado decorativo */
+section h2.text-center {
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 3rem !important;
+  color: var(--lesumo-gris-oscuro);
 }
-  /* Carrusel */
-  .carousel-item {
-    height: 250px;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Sección de Registro */
-  #registro {
-    background-color: #f8f9fa;
-  }
-  
-  /* Footer */
-  footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-  }
-  
-  .social-icons a {
-    color: #fff;
-    margin: 0 10px;
-    font-size: 1.5rem;
-  }
 
-  /* Estilos para la sección de productos */
-#productos {
-    background-color: #f8f9fa;
+section h2.text-center::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--lesumo-azul), var(--lesumo-dorado));
+  border-radius: 2px;
+}
+
+/* ============================================================
+   HERO / BIENVENIDA
+   ============================================================ */
+#inicio .text-center h1 {
+  color: var(--lesumo-gris-oscuro);
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+#inicio .text-center .lead {
+  font-size: 1.35rem;
+  color: var(--lesumo-gris-medio);
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#inicio .text-center h1::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: var(--lesumo-dorado);
+  margin: 20px auto 0;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   CARRUSEL
+   ============================================================ */
+.carousel {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--sombra-media);
+  margin-top: 40px;
+}
+
+.carousel-item {
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.carousel-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,32,159,0.3), rgba(210,16,52,0.2));
+}
+
+.carousel-item img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 60px;
+  opacity: 0.8;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   CARDS DE PRODUCTOS
+   ============================================================ */
+.producto {
+  border: none;
+  border-radius: 16px;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion);
+  overflow: hidden;
+  background: #fff;
+  height: 100%;
+}
+
+.producto:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-media);
+}
+
+.producto .card-body {
+  padding: 2rem 1.5rem;
+}
+
+.producto .card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--lesumo-gris-oscuro);
+  margin-bottom: 1rem;
+}
+
+.producto .card-text {
+  color: var(--lesumo-gris-medio);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  transition: var(--transicion);
+  border: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.btn-primary,
+.btn-success,
+button.btn {
+  background: linear-gradient(135deg, var(--lesumo-azul), var(--lesumo-azul-oscuro));
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0,32,159,0.3);
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+button.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,32,159,0.4);
+  color: #fff;
+}
+
+.btn-warning,
+.btn-outline-primary {
+  background: var(--lesumo-dorado);
+  color: var(--lesumo-gris-oscuro);
+  font-weight: 700;
+}
+
+.btn-warning:hover,
+.btn-outline-primary:hover {
+  background: var(--lesumo-azul);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   SERVICIOS
+   ============================================================ */
+#servicios h3 {
+  color: var(--lesumo-azul);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--lesumo-dorado);
+}
+
+#servicios p {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  text-align: justify;
+}
+
+#servicios ul {
+  list-style: none;
+  padding-left: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#servicios ul li {
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: var(--transicion);
+  color: #444;
+}
+
+#servicios ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 1rem;
+  color: var(--lesumo-dorado);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+#servicios ul li:hover {
+  transform: translateX(5px);
+  box-shadow: var(--sombra-suave);
+  border-left: 3px solid var(--lesumo-azul);
+}
+
+/* ============================================================
+   SOBRE NOSOTROS
+   ============================================================ */
+#Sobre-Nosotros .container > p,
+#Sobre-Nosotros .container > h2:not(.text-center) {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#Sobre-Nosotros h2:not(.text-center) {
+  color: var(--lesumo-azul);
+  font-size: 1.75rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+#Sobre-Nosotros p {
+  text-align: justify;
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+#Sobre-Nosotros strong {
+  color: var(--lesumo-azul);
+}
+
+/* ============================================================
+   ACCESO A DOCUMENTOS
+   ============================================================ */
+#acceso-a-documentos {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+#acceso-a-documentos .container {
+  max-width: 900px;
+}
+
+#acceso-a-documentos ol {
+  counter-reset: item;
+  list-style: none;
+  padding-left: 0;
+  margin: 2rem 0;
+}
+
+#acceso-a-documentos ol li {
+  counter-increment: item;
+  padding: 1.25rem 1.5rem 1.25rem 4rem;
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: var(--sombra-suave);
+  transition: var(--transicion);
+}
+
+#acceso-a-documentos ol li::before {
+  content: counter(item);
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--lesumo-azul), var(--lesumo-azul-oscuro));
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+#acceso-a-documentos ol li:hover {
+  box-shadow: var(--sombra-media);
+  transform: translateX(5px);
+}
+
+/* ============================================================
+   WHATSAPP FLOTANTE
+   ============================================================ */
+a[href*="whatsapp"] {
+  transition: var(--transicion);
+}
+
+a[href*="whatsapp"]:hover {
+  transform: scale(1.15);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5) !important;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background-color: var(--lesumo-gris-oscuro) !important;
+  color: #fff;
+  padding: 60px 0 30px;
+  margin-top: 0;
+}
+
+footer p {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+footer .social-icons {
+  margin: 1.5rem 0;
+}
+
+footer .social-icons a {
+  color: #fff;
+  margin: 0 12px;
+  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  transition: var(--transicion);
+  text-decoration: none;
+}
+
+footer .social-icons a:hover {
+  background: var(--lesumo-dorado);
+  color: var(--lesumo-gris-oscuro);
+  transform: translateY(-5px);
+}
+
+footer a[href="#inicio"] {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  border: 2px solid var(--lesumo-dorado);
+  color: var(--lesumo-dorado);
+  border-radius: 50px;
+  font-weight: 600;
+  transition: var(--transicion);
+}
+
+footer a[href="#inicio"]:hover {
+  background: var(--lesumo-dorado);
+  color: var(--lesumo-gris-oscuro);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+
+  section { padding: 60px 0; }
+
+  .carousel-item { height: 300px; }
+
+  #inicio .text-center .lead { font-size: 1.1rem; }
+
+  #servicios p,
+  #Sobre-Nosotros p { text-align: left; }
+
+  footer .social-icons a {
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
   }
-  
-  .producto {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+}
+
+/* ============================================================
+   ANIMACIONES SUAVES
+   ============================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  .producto:hover {
-    transform: translateY(-5px);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  .paypal-button {
-    margin-top: 1rem;
-  }
+}
+
+section > .container {
+  animation: fadeInUp 0.8s ease-out;
+}
