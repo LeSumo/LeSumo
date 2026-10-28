@@ -32,8 +32,28 @@
   <main>
     <h1>Aprende R</h1>
     <p>Inicia sesión con Google para comprobar tu acceso al curso.</p>
-    <div id="google"></div>
+    
+<div id="g_id_onload"
+     data-client_id="238266082480-knh6pbgs0oee0fge25fl27a1dk8qj8pf.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-size="large"
+     data-theme="outline"
+     data-text="signin_with"
+     data-shape="rectangular"
+     data-logo_alignment="left">
+</div>
     <p id="mensaje" role="status"></p>
   </main>
+  
+<script>
+  function handleCredentialResponse(response) {
+    document.getElementById('mensaje').textContent =
+      'Google respondió. Estamos preparando la verificación del acceso.';
+  }
+</script>
 </body>
 </html>
