@@ -50,10 +50,31 @@
   </main>
   
 <script>
-  function handleCredentialResponse(response) {
-    document.getElementById('mensaje').textContent =
-      'Google respondió. Estamos preparando la verificación del acceso.';
+  
+function handleCredentialResponse(response) {
+  const mensaje = document.getElementById('mensaje');
+
+  if (!response || !response.credential) {
+    mensaje.textContent = 'No se recibió la credencial de Google.';
+    return;
   }
+
+  mensaje.textContent = 'Verificando tu identidad...';
+
+  const formulario = document.createElement('form');
+  formulario.method = 'POST';
+  formulario.action =
+    'https://script.google.com/macros/s/AKfycbxS8aPLiRP-rLlIJL9IEQ2tSu1BZnLbnou6qb1pSnfu8a8c7vkQl47JiQLhR1KjKkQ4/exec';
+
+  const campo = document.createElement('input');
+  campo.type = 'hidden';
+  campo.name = 'credential';
+  campo.value = response.credential;
+
+  formulario.appendChild(campo);
+  document.body.appendChild(formulario);
+  formulario.submit();
+}
 </script>
 </body>
 </html>
