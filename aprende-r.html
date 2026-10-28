@@ -1,272 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Acceso a Aprende R | LeSumo</title>
+  <title>Comprar Aprende R | LeSumo</title>
   <style>
     :root { --navy:#16324F; --teal:#167D8D; --paper:#F7F7F2; --muted:#455565; }
-    * { box-sizing:border-box; }
     body { font-family:Arial,sans-serif; background:var(--paper); color:var(--navy); margin:0; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:24px; }
-    .contenedor { background:#fff; width:min(100%,460px); padding:32px; border-radius:14px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,.08); }
-    h1 { margin:0 0 10px; }
+    .caja { background:#fff; width:min(100%,460px); padding:32px; border-radius:14px; box-shadow:0 4px 20px rgba(0,0,0,.08); }
+    h1 { margin:0 0 8px; font-size:24px; }
     p { line-height:1.6; color:var(--muted); }
-    button { width:100%; padding:13px; margin-top:14px; border:0; border-radius:7px; background:var(--teal); color:#fff; font-size:16px; cursor:pointer; }
-    button.secondary { background:#e7eef0; color:var(--navy); }
+    label { display:block; margin-top:18px; font-weight:bold; }
+    input { width:100%; padding:12px; border:1px solid #cfd8dc; border-radius:8px; font-size:15px; margin-top:6px; box-sizing:border-box; }
+    button { width:100%; padding:14px; margin-top:18px; border:0; border-radius:8px; background:var(--teal); color:#fff; font-size:16px; font-weight:bold; cursor:pointer; }
     button:disabled { opacity:.6; cursor:wait; }
-    #mensaje { margin-top:18px; overflow-wrap:anywhere; line-height:1.6; }
-    .oculto { display:none !important; }
-    .marca { color:var(--teal); font-weight:700; margin-bottom:12px; }
-    .nota { font-size:13px; }
-    #resumenPago { margin-top:14px; padding:14px; border:1px solid #d8e2e6; border-radius:8px; background:#f8fbfc; }
-    #paypal-button-container, #card-button-container { margin-top:12px; }
-    .separador { margin:14px 0 4px; color:#647582; font-size:13px; }
+    #msg { margin-top:16px; color:#b00020; }
+    .precio { font-size:28px; font-weight:bold; color:var(--teal); margin:8px 0 4px; }
   </style>
 </head>
 <body>
-  <main class="contenedor">
-    <div class="marca">LeSumo / Aprende R</div>
-    <h1>Acceso al curso</h1>
-    <p>Inicia sesión con Google para comprobar tu acceso. Si todavía no tienes acceso, podrás pagar de forma segura con PayPal o con tarjeta de débito o crédito cuando esa opción esté disponible en tu región y cuenta.</p>
+  <main class="caja">
+    <h1>Aprende R</h1>
+    <p>Curso interactivo de R. Acceso de por vida tras el pago.</p>
+    <div class="precio" id="precio">—</div>
+    <p>Introduce el correo donde quieres recibir tu enlace de acceso. Puede ser distinto al de PayPal.</p>
 
-    <div id="googleButton" style="display:flex;justify-content:center;margin:20px auto;"></div>
-    <button id="reintentar" type="button" class="secondary oculto" onclick="comprobarAcceso()">Volver a comprobar mi acceso</button>
+    <label for="correo">Correo electrónico</label>
+    <input id="correo" type="email" placeholder="tu@correo.com" autocomplete="email">
 
-    <section id="resumenPago" class="oculto">
-      <strong>Compra de Aprende R</strong>
-      <p id="importePago"></p>
-      <div id="paypal-button-container"></div>
-      <div id="card-section" class="oculto">
-        <p class="separador">O paga con tarjeta de débito o crédito</p>
-        <div id="card-button-container"></div>
-      </div>
-      <p class="nota">El pago se confirma en el servidor. El acceso se activa solo después de verificar una captura completada.</p>
-    </section>
-
-    <div id="mensaje" role="status" aria-live="polite">Tu acceso se comprobará después de iniciar sesión.</div>
-    <p class="nota">No compartimos los datos de tu tarjeta con Aprende R. El procesamiento del pago lo realiza PayPal.</p>
+    <button id="comprar" type="button">Comprar con PayPal</button>
+    <div id="msg"></div>
   </main>
 
 <script>
-  const GOOGLE_CLIENT_ID = '238266082480-knh6pbgs0oee0fge25fl27a1dk8qj8pf.apps.googleusercontent.com';
-  // ⚠️ REEMPLAZA ESTO con la URL /exec de tu implementación de Apps Script
+  // ⚠️ Reemplaza con la URL /exec de tu implementación de Apps Script
   const WEBR_URL = 'https://script.google.com/macros/s/TU_DEPLOYMENT_ID/exec';
 
-  let googleCredential = null;
-  let solicitudEnCurso = false;
-  let paypalSdkCargando = false;
-  let paypalSdkListo = false;
-  let botonesRenderizados = false;
-  let configuracionPago = null;
-
   const $ = id => document.getElementById(id);
-  function mensaje(texto) { $('mensaje').textContent = texto; }
 
-  // Llamada genérica a la API de Apps Script
-  async function llamarApi(funcion, parametros = {}) {
-    const respuesta = await fetch(WEBR_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ funcion, parametros }),
-      redirect: 'follow'
-    });
-    if (!respuesta.ok) {
-      const texto = await respuesta.text();
-      throw new Error('Error del servidor (' + respuesta.status + '): ' + texto.substring(0, 200));
-    }
-    const datos = await respuesta.json();
-    if (datos.error) throw new Error(datos.error);
-    return datos.resultado;
-  }
+  // Obtener precio y clientId desde el backend
+  (async () => {
+    try {
+      const r = await fetch(WEBR_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ funcion: 'config', parametros: {} })
+      });
+      // Si no tienes función config, muestra "—" y deja que el backend ponga el precio al crear la orden.
+    } catch (_) {}
+  })();
 
-  function bloquear(bloqueado) {
-    $('reintentar').disabled = bloqueado;
-    const gbtn = document.querySelector('#googleButton div[role="button"]');
-    if (gbtn) gbtn.setAttribute('aria-disabled', bloqueado ? 'true' : 'false');
-    ['paypal-button-container', 'card-button-container'].forEach(id => {
-      const el = $(id);
-      el.style.pointerEvents = bloqueado ? 'none' : '';
-      el.style.opacity = bloqueado ? '0.6' : '';
-    });
-  }
-
-  function iniciarSesion() {
-    if (!window.google || !google.accounts || !google.accounts.id) {
-      mensaje('Google todavía está cargando. Recarga la página e inténtalo de nuevo.');
+  $('comprar').addEventListener('click', async () => {
+    const correo = $('correo').value.trim().toLowerCase();
+    $('msg').textContent = '';
+    if (!correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      $('msg').textContent = 'Introduce un correo válido.';
       return;
     }
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: function(respuesta) {
-        if (!respuesta || !respuesta.credential) {
-          mensaje('Google no devolvió una credencial. Inténtalo de nuevo.');
-          return;
-        }
-        googleCredential = respuesta.credential;
-        botonesRenderizados = false;
-        $('paypal-button-container').innerHTML = '';
-        $('card-button-container').innerHTML = '';
-        $('resumenPago').classList.add('oculto');
-        comprobarAcceso();
-      }
-    });
-    $('googleButton').innerHTML = '';
-    google.accounts.id.renderButton($('googleButton'), {
-      type: 'standard', theme: 'outline', size: 'large', text: 'signin_with', shape: 'rectangular', width: 300
-    });
-  }
-
-  async function comprobarAcceso() {
-    if (!googleCredential) { mensaje('Primero inicia sesión con Google.'); return; }
-    if (solicitudEnCurso) return;
-    solicitudEnCurso = true;
-    bloquear(true);
-    $('resumenPago').classList.add('oculto');
-    $('reintentar').classList.add('oculto');
-    mensaje('Verificando tu identidad y tu acceso…');
+    $('comprar').disabled = true;
+    $('comprar').textContent = 'Creando orden…';
 
     try {
-      const resultado = await llamarApi('verificarAccesoDesdeTokenApi', { credential: googleCredential });
-      solicitudEnCurso = false;
-      bloquear(false);
-
-      if (!resultado || resultado.verificado !== true || !resultado.correo) {
-        mensaje('No se pudo confirmar la identidad. Vuelve a iniciar sesión.');
-        return;
-      }
-      if (resultado.tieneAcceso && resultado.ticket && resultado.cursoUrl) {
-        mensaje('Acceso confirmado para ' + resultado.correo + '. Abriendo el curso…');
-        abrirCurso(resultado.ticket, resultado.cursoUrl);
-        return;
-      }
-      mensaje('Identidad verificada: ' + resultado.correo + '. Puedes continuar con el pago seguro.');
-      prepararPago();
-    } catch (error) {
-      solicitudEnCurso = false;
-      bloquear(false);
-      mensaje('No se pudo comprobar el acceso: ' + error.message);
+      const r = await fetch(WEBR_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ funcion: 'crearOrden', parametros: { correo } })
+      });
+      const datos = await r.json();
+      if (datos.error) throw new Error(datos.error);
+      const { approvalUrl, amount, currency } = datos.resultado;
+      $('precio').textContent = amount + ' ' + currency;
+      // Redirigir a PayPal (fuera de iframes)
+      window.location.href = approvalUrl;
+    } catch (e) {
+      $('msg').textContent = 'Error: ' + e.message;
+      $('comprar').disabled = false;
+      $('comprar').textContent = 'Comprar con PayPal';
     }
-  }
-
-  async function prepararPago() {
-    if (!googleCredential) return;
-    mensaje('Cargando las opciones de pago seguras…');
-    try {
-      const config = await llamarApi('obtenerConfiguracionBotonesPayPalDesdeTokenApi', { credential: googleCredential });
-      if (!config || !config.clientId || !config.amount || !config.currency) {
-        mensaje('No se recibió la configuración de PayPal. Revisa las propiedades del proyecto.');
-        return;
-      }
-      configuracionPago = config;
-      $('importePago').textContent = 'Total: ' + config.amount + ' ' + config.currency;
-      $('resumenPago').classList.remove('oculto');
-      cargarSdkPayPal(config.clientId, config.currency);
-    } catch (error) {
-      mensaje('No se pudieron preparar las opciones de pago: ' + error.message);
-    }
-  }
-
-  function cargarSdkPayPal(clientId, currency) {
-    if (paypalSdkListo && window.paypal) { renderizarBotonesPayPal(); return; }
-    if (paypalSdkCargando) return;
-    paypalSdkCargando = true;
-    const script = document.createElement('script');
-    script.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) +
-      '&currency=' + encodeURIComponent(currency) + '&intent=capture&components=buttons&enable-funding=card';
-    script.onload = function() {
-      paypalSdkCargando = false;
-      if (!window.paypal || !window.paypal.Buttons) {
-        mensaje('PayPal no pudo inicializar los botones. Recarga la página e inténtalo de nuevo.');
-        return;
-      }
-      paypalSdkListo = true;
-      renderizarBotonesPayPal();
-    };
-    script.onerror = function() {
-      paypalSdkCargando = false;
-      mensaje('No se pudo cargar PayPal. Comprueba tu conexión e inténtalo de nuevo.');
-    };
-    document.head.appendChild(script);
-  }
-
-  function opcionesBoton() {
-    return {
-      style: { layout: 'vertical', shape: 'rect', label: 'paypal', tagline: false },
-      createOrder: async function() {
-        if (!googleCredential) throw new Error('Inicia sesión con Google antes de pagar.');
-        mensaje('Creando la orden de pago…');
-        const resultado = await llamarApi('crearOrdenPayPalDesdeTokenParaBotonesApi', { credential: googleCredential });
-        if (resultado && resultado.yaTieneAcceso) {
-          mensaje('Esta cuenta ya tiene acceso. Volviendo a comprobar…');
-          comprobarAcceso();
-          throw new Error('Esta cuenta ya tiene acceso.');
-        }
-        if (!resultado || !resultado.orderId) throw new Error('El servidor no devolvió una orden válida.');
-        return resultado.orderId;
-      },
-      onApprove: async function(data) {
-        mensaje('Pago autorizado. Confirmando la captura con PayPal…');
-        const resultado = await llamarApi('capturarOrdenPayPalDesdeTokenParaBotonesApi', {
-          credential: googleCredential,
-          orderId: data.orderID
-        });
-        if (!resultado || resultado.confirmado !== true) throw new Error('El servidor no confirmó el pago.');
-        if (resultado.sandbox) {
-          mensaje('Pago de prueba confirmado en Sandbox. No activa el acceso real al curso.');
-          $('reintentar').classList.remove('oculto');
-          return;
-        }
-        mensaje('Pago confirmado. Verificando el acceso al curso…');
-        const acceso = await llamarApi('verificarAccesoDesdeTokenApi', { credential: googleCredential });
-        if (acceso && acceso.verificado && acceso.tieneAcceso && acceso.ticket && acceso.cursoUrl) {
-          mensaje('Pago confirmado. Abriendo Aprende R…');
-          abrirCurso(acceso.ticket, acceso.cursoUrl);
-        } else {
-          mensaje('PayPal confirmó el pago, pero el acceso aún no aparece. Pulsa «Volver a comprobar mi acceso».');
-          $('reintentar').classList.remove('oculto');
-        }
-      },
-      onCancel: function() { mensaje('La compra se canceló. No se activó el acceso al curso.'); },
-      onError: function(error) { mensaje('PayPal no pudo completar el proceso: ' + (error.message || error)); }
-    };
-  }
-
-  function renderizarBotonesPayPal() {
-    if (!window.paypal || botonesRenderizados || !googleCredential) return;
-    $('paypal-button-container').innerHTML = '';
-    $('card-button-container').innerHTML = '';
-    const opciones = opcionesBoton();
-
-    const botonPaypal = window.paypal.Buttons(Object.assign({}, opciones, { fundingSource: window.paypal.FUNDING.PAYPAL }));
-    if (botonPaypal.isEligible()) {
-      botonPaypal.render('#paypal-button-container').catch(e => mensaje('No se pudo mostrar PayPal: ' + e.message));
-    }
-
-    const botonTarjeta = window.paypal.Buttons(Object.assign({}, opciones, { fundingSource: window.paypal.FUNDING.CARD, style: { layout: 'vertical', shape: 'rect', label: 'pay', tagline: false } }));
-    if (botonTarjeta.isEligible()) {
-      $('card-section').classList.remove('oculto');
-      botonTarjeta.render('#card-button-container').catch(() => $('card-section').classList.add('oculto'));
-    } else {
-      $('card-section').classList.add('oculto');
-    }
-    botonesRenderizados = true;
-    mensaje(configuracionPago && configuracionPago.mode === 'SANDBOX'
-      ? 'Modo de prueba activo: los pagos Sandbox no activan el acceso real.'
-      : 'Elige PayPal o tarjeta si PayPal muestra esa opción para tu cuenta.');
-  }
-
-  function abrirCurso(ticket, cursoUrl) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = cursoUrl || WEBR_URL;
-    form.target = '_top';
-    const input = document.createElement('input');
-    input.type = 'hidden'; input.name = 'ticket'; input.value = ticket;
-    form.appendChild(input); document.body.appendChild(form); form.submit();
-  }
-
-  window.addEventListener('load', iniciarSesion);
+  });
 </script>
 </body>
 </html>
