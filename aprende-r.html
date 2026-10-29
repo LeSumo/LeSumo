@@ -427,23 +427,7 @@ edades &lt;- c(22, 31, 27, 40)
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
-    const accessButton =
-      document.getElementById("courseAccessButton");
-
-    if (
-      ACCESS_APP_URL.startsWith("https://script.google.com/macros/s/") &&
-      ACCESS_APP_URL.endsWith("/exec")
-    ) {
-      accessButton.href = ACCESS_APP_URL;
-    } else {
-      accessButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        alert(
-          "Configura ACCESS_APP_URL con la URL /exec de tu aplicación " +
-          "de Google Apps Script antes de publicar."
-        );
-      });
-    }
+    
   </script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
