@@ -423,6 +423,66 @@ edades &lt;- c(22, 31, 27, 40)
     */
     const ACCESS_APP_URL =
       "https://script.google.com/macros/s/AKfycbxS8aPLiRP-rLlIJL9IEQ2tSu1BZnLbnou6qb1pSnfu8a8c7vkQl47JiQLhR1KjKkQ4/exec";
+    const GOOGLE_CLIENT_ID =
+  "238266082480-knh6pbgs0oee0fge25fl27a1dk8qj8pf.apps.googleusercontent.com";
+    
+function iniciarGoogle() {
+  const contenedor = document.getElementById("googleButton");
+  const estado = document.getElementById("googleStatus");
+
+  if (!contenedor) {
+    console.error("No se encontró el elemento googleButton.");
+    return;
+  }
+
+  if (!window.google?.accounts?.id) {
+    if (estado) {
+      estado.textContent =
+        "No se pudo cargar Google. Recarga la página.";
+    }
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: recibirCredencial,
+    auto_select: false
+  });
+
+  google.accounts.id.renderButton(contenedor, {
+    type: "standard",
+    theme: "outline",
+    size: "large",
+    text: "signin_with",
+    shape: "rectangular",
+    width: 280
+  });
+}
+
+function recibirCredencial(respuesta) {
+  if (!respuesta || !respuesta.credential) {
+    document.getElementById("googleStatus").textContent =
+      "Google no proporcionó la credencial.";
+    return;
+  }
+
+  const formulario = document.createElement("form");
+  formulario.method = "POST";
+  formulario.action = ACCESS_APP_URL;
+  formulario.target = "_top";
+
+  const campo = document.createElement("input");
+  campo.type = "hidden";
+  campo.name = "credential";
+  campo.value = respuesta.credential;
+
+  formulario.appendChild(campo);
+  document.body.appendChild(formulario);
+  formulario.submit();
+}
+
+window.addEventListener("load", iniciarGoogle);
+
 
     document.getElementById("year").textContent =
       new Date().getFullYear();
